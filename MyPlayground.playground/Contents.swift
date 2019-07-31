@@ -64,16 +64,55 @@ if test == true {
 }
 print("Количество четных чисел: \(odd)")
 print("Количество четных чисел: \(even)")
-//func mod(a: Int) {
-//        if a % 2 == 1 {
-//            print("Нечет")
-//        } else {
-//            print("чет")
-//        }}
-//
-//var rez = 0
-//
-//arr.forEach { (a) in
-//    rez = mod(a)
-//    print(rez)
-//}
+
+
+class Account {
+    var accNumber: Int
+    var accBalance: Double
+    lazy var bankrupt = "Казна пуста! Ваш баланс: "
+    
+    func balance (_ value:Double) -> String {
+        if accBalance > 0 {
+            return String(accBalance)
+        } else {
+            return bankrupt
+        }
+    }
+    init(accNumber: Int, accBalance: Double) {
+        self.accNumber = accNumber
+        self.accBalance = accBalance
+    }
+}
+
+class CardAccount: Account {
+    let cardAccountCurrency: String
+    
+    override func balance(_ value: Double) -> String {
+        if accBalance > 0 {
+            return String(accBalance)
+        } else {
+            //хочу к текущей переменной bankrupt добавить значение из переменной cardAccountCurrency
+            return bankrupt
+        }
+    }
+    
+    init(accNumber: Int, accBalance: Double, cardAccountCurrency: String) {
+        self.cardAccountCurrency = cardAccountCurrency
+        super.init(accNumber: accNumber, accBalance: accBalance)
+    }
+}
+
+
+class Card: CardAccount {
+    let paymentSystem: String
+    
+    //здесь тоже бы хотелось к переопределенной функции добавить переменную  paymentSystem из класса Card
+    init(accNumber: Int, accBalance: Double, cardAccountCurrency: String, paymentSystem: String) {
+        self.paymentSystem = paymentSystem
+        super.init(accNumber: accNumber, accBalance: accBalance, cardAccountCurrency: cardAccountCurrency)
+    }
+}
+
+let salaryCard = Card.init(accNumber: 12100500, accBalance: 3, cardAccountCurrency: "RUR", paymentSystem: "Visa")
+salaryCard.balance(2)
+//пишу 2, но записано 3 в балансе...чет короче непонятки пока
